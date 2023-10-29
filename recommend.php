@@ -150,37 +150,37 @@
                 <div class="form-group">
                     <label for="cpu_load_avg">Average CPU Load (1 minute):</label>
                     <input type="number" step="any" id="cpu_load_avg" name="cpu_load_avg" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">sar -q | awk '/Average/ {print $4}'</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) '/Average/ {print $4 / nproc}' <(sar -q)</pre>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="cpu_load_avg_5">Average CPU Load (5 minutes):</label>
                     <input type="number" step="any" id="cpu_load_avg_5" name="cpu_load_avg_5" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">sar -q | awk '/Average/ {print $5}'</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) '/Average/ {print $5 / nproc}' <(sar -q)</pre>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="cpu_load_avg_15">Average CPU Load (15 minutes):</label>
                     <input type="number" step="any" id="cpu_load_avg_15" name="cpu_load_avg_15" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">sar -q | awk '/Average/ {print $6}'</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) '/Average/ {print $6 / nproc}' <(sar -q)</pre>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="cpu_load_peak_1">Peak CPU Load (1 minute):</label>
                     <input type="number" step="any" id="cpu_load_peak_1" name="cpu_load_peak_1" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">sar -q | awk 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($5 > max) max = $5} END {print max}'</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($5 > max) max = $5} END {print max / nproc}' <(sar -q)</pre>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="cpu_load_peak_5">Peak CPU Load (5 minutes):</label>
                     <input type="number" step="any" id="cpu_load_peak_5" name="cpu_load_peak_5" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">sar -q | awk 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($6 > max) max = $6} END {print max}'</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($6 > max) max = $6} END {print max / nproc}' <(sar -q)</pre>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="cpu_load_peak_15">Peak CPU Load (15 minutes):</label>
                     <input type="number" step="any" id="cpu_load_peak_15" name="cpu_load_peak_15" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">sar -q | awk 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($7 > max) max = $7} END {print max}'</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($7 > max) max = $7} END {print max / nproc}' <(sar -q)</pre>
                 </div>
 
                 <div class="form-group">
