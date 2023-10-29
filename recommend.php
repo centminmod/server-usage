@@ -104,6 +104,7 @@
     <div class="container">
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $cpu_threads = $_POST["cpu_threads"];
             $cpu_load_avg = $_POST["cpu_load_avg"];
             $cpu_load_avg_5 = $_POST["cpu_load_avg_5"];
             $cpu_load_avg_15 = $_POST["cpu_load_avg_15"];
@@ -118,6 +119,11 @@
             $bandwidth = $_POST["bandwidth"];
             $bandwidth_peak = $_POST["bandwidth_peak"];
 
+            // Calculate recommendations
+            $peak_cpu_load = max($cpu_load_peak_1, $cpu_load_peak_5, $cpu_load_peak_15);
+            $recommended_cpus = $peak_cpu_load * $cpu_threads;
+            $recommended_cpus = ceil($recommended_cpus); // Round up to the nearest integer
+
             // Calculate recommendations and provide affiliate links
             // This is where you would add your logic to calculate the recommendations
             // and generate affiliate links based on the user's input.
@@ -125,9 +131,9 @@
             echo "<h2>Recommendations</h2>";
             echo "<p>Based on your input, here are our recommendations:</p>";
             echo "<ul>";
+            echo "<li>Recommended CPU: $recommended_cpus Threads</li>";
             echo "<li>Recommended Memory: ... GB</li>"; // Add your calculated value here
             echo "<li>Recommended Disk: ... GB</li>"; // Add your calculated value here
-            echo "<li>Recommended CPU: ... Cores</li>"; // Add your calculated value here
             echo "<li>Recommended Bandwidth Egress: ... Mbps</li>"; // Add your calculated value here
             echo "</ul>";
 
@@ -144,6 +150,13 @@
                 <h2>Server Resource Usage</h2>
 
                 <p>This form calculator helps you determine your existing Linux server's resource usage by asking your questions and providing an example Linux SSH command line(s) you can click on the command line text to automatically copy the text and then paste into your SSH session to get the answer. Your existing Linux server must already have <code>sar</code> command installed from <code>sysstat</code> YUM/APT packages.</p>
+
+                <div class="form-group">
+                    <label for="cpu_threads">Number of CPU Threads:</label>
+                    <input type="number" id="cpu_threads" name="cpu_threads" required>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">nproc</pre>
+                    <small>Use the above command in your server's terminal to find out the number of CPU threads.</small>
+                </div>
 
                 <div id="tooltip" class="tooltip">Text copied to clipboard</div>
                 <div class="form-group">
