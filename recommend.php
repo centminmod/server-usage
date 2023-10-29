@@ -84,14 +84,13 @@
         }
     </style>
     <script>
-        function copyToClipboard(element) {
+        function copyToClipboard(element, event) {
             var text = element.innerText;
             navigator.clipboard.writeText(text).then(function() {
                 var tooltip = document.getElementById('tooltip');
-                var rect = element.getBoundingClientRect();
                 tooltip.style.display = 'block';
-                tooltip.style.left = rect.left + 'px';
-                tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+                tooltip.style.left = (event.pageX + 10) + 'px';
+                tooltip.style.top = (event.pageY - tooltip.offsetHeight - 10) + 'px';
                 setTimeout(function() {
                     tooltip.style.display = 'none';
                 }, 2000); // Hide tooltip after 2 seconds
@@ -150,83 +149,83 @@
                 <div class="form-group">
                     <label for="cpu_load_avg">Average CPU Load (1 minute):</label>
                     <input type="number" step="any" id="cpu_load_avg" name="cpu_load_avg" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) '/Average/ {print $4 / nproc}' <(sar -q)</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">awk -v nproc=$(nproc) '/Average/ {print $4 / nproc}' <(sar -q)</pre>
                 </div>
                 
                 <div class="form-group">
                     <label for="cpu_load_avg_5">Average CPU Load (5 minutes):</label>
                     <input type="number" step="any" id="cpu_load_avg_5" name="cpu_load_avg_5" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) '/Average/ {print $5 / nproc}' <(sar -q)</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">awk -v nproc=$(nproc) '/Average/ {print $5 / nproc}' <(sar -q)</pre>
                 </div>
                 
                 <div class="form-group">
                     <label for="cpu_load_avg_15">Average CPU Load (15 minutes):</label>
                     <input type="number" step="any" id="cpu_load_avg_15" name="cpu_load_avg_15" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) '/Average/ {print $6 / nproc}' <(sar -q)</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">awk -v nproc=$(nproc) '/Average/ {print $6 / nproc}' <(sar -q)</pre>
                 </div>
                 
                 <div class="form-group">
                     <label for="cpu_load_peak_1">Peak CPU Load (1 minute):</label>
                     <input type="number" step="any" id="cpu_load_peak_1" name="cpu_load_peak_1" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($5 > max) max = $5} END {print max / nproc}' <(sar -q)</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">awk -v nproc=$(nproc) 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($5 > max) max = $5} END {print max / nproc}' <(sar -q)</pre>
                 </div>
                 
                 <div class="form-group">
                     <label for="cpu_load_peak_5">Peak CPU Load (5 minutes):</label>
                     <input type="number" step="any" id="cpu_load_peak_5" name="cpu_load_peak_5" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($6 > max) max = $6} END {print max / nproc}' <(sar -q)</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">awk -v nproc=$(nproc) 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($6 > max) max = $6} END {print max / nproc}' <(sar -q)</pre>
                 </div>
                 
                 <div class="form-group">
                     <label for="cpu_load_peak_15">Peak CPU Load (15 minutes):</label>
                     <input type="number" step="any" id="cpu_load_peak_15" name="cpu_load_peak_15" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">awk -v nproc=$(nproc) 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($7 > max) max = $7} END {print max / nproc}' <(sar -q)</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">awk -v nproc=$(nproc) 'NR > 3 && !/Average/ && !/ldavg-1/ && !/runq-sz/ && !/^$/ {if ($7 > max) max = $7} END {print max / nproc}' <(sar -q)</pre>
                 </div>
 
                 <div class="form-group">
                     <label for="cpu">Average CPU Usage (%):</label>
                     <input type="number" id="cpu" name="cpu" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">sar -u | awk '/Average/ {print 100 - $8}'</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">sar -u | awk '/Average/ {print 100 - $8}'</pre>
                 </div>
 
                 <div class="form-group">
                     <label for="cpu_peak">Peak CPU Usage (%):</label>
                     <input type="number" id="cpu_peak" name="cpu_peak" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">sar -u | awk '/all/ && !/Average/ {if (100 - $9 > max) max = 100 - $9} END {print max}'</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">sar -u | awk '/all/ && !/Average/ {if (100 - $9 > max) max = 100 - $9} END {print max}'</pre>
                 </div>
 
                 <div class="form-group">
                     <label for="memory">Average Memory Usage (GB):</label>
                     <input type="number" id="memory" name="memory" step="0.01" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">sar -r 1 5 | awk '/Average/ {print $2 / 1024}'</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">sar -r 1 5 | awk '/Average/ {print $2 / 1024}'</pre>
                 </div>
 
                 <div class="form-group">
                     <label for="memory_peak">Peak Memory Usage (GB):</label>
                     <input type="number" id="memory_peak" name="memory_peak" step="0.01" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">grep -i "Committed_AS" /proc/meminfo | awk '{print $2 / 1024 / 1024 " GB"}'</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">grep -i "Committed_AS" /proc/meminfo | awk '{print $2 / 1024 / 1024 " GB"}'</pre>
                 </div>
 
                 <div class="form-group">
                     <label for="disk">Current Disk Usage (GB):</label>
                     <input type="number" id="disk" name="disk" step="0.01" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">df -h | grep ' /$' | awk '{print $3}'</pre>
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">df -h | grep ' /$' | awk '{print $3}'</pre>
                 </div>
 
                 <div class="form-group">
                     <label for="bandwidth">Average Bandwidth Egress (Mbps):</label>
                     <input type="number" id="bandwidth" name="bandwidth" step="0.01" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">
 interface=$(ip -o link show | awk '$9 == "UP" {print $2}' | sed 's/:$//' | head -n 1)
-sar -n DEV 1 5 | grep $interface | awk '{total += $5} END {print (total / NR) * 8 / 1000 " Mbps"}'</pre>
+sar -n DEV | grep $interface | grep -v Average | awk '{total += $5} END {print (total / NR) * 8 / 1000 " Mbps"}'</pre>
                 </div>
 
                 <div class="form-group">
                     <label for="bandwidth_peak">Peak Bandwidth Egress (Mbps):</label>
                     <input type="number" id="bandwidth_peak" name="bandwidth_peak" step="0.01" required>
-                    <pre class="copyText" onclick="copyToClipboard(this)">
+                    <pre class="copyText" onclick="copyToClipboard(this, event)">
 interface=$(ip -o link show | awk '$9 == "UP" {print $2}' | sed 's/:$//' | head -n 1)
-sar -n DEV | awk -v iface="$interface" '$2 == iface && $5 + $6 > max {max = $5 + $6} END {print "Interface: " iface ", Peak Bandwidth: " max * 8 / 1000 " Mbps"}'</pre>
+sar -n DEV | awk -v iface="$interface" '($3 == iface) && $1 !~ /^(Average:|IFACE)$/ && $1 ~ /^[0-9]/ {if ($5 > max) max = $5} END {print "Interface: " iface ", Peak Egress Bandwidth: " max * 8 / 1000 " Mbps"}'</pre>
                 </div>
 
                 <button type="submit">Submit</button>
