@@ -126,7 +126,7 @@
 
             // Calculate CPU recommendations
             $peak_cpu_load = max($cpu_load_peak_1, $cpu_load_peak_5, $cpu_load_peak_15);
-            $recommended_cpus = $peak_cpu_load * $cpu_threads * 1.33;
+            $recommended_cpus = $peak_cpu_load * $cpu_threads * 1.75;
             $recommended_cpus = ceil($recommended_cpus); // Round up to the nearest integer
 
             // Calculate recommended memory (high range)
@@ -145,7 +145,7 @@
             $recommended_bandwidth_high = ceil($bandwidth_peak_tb_per_month); // Round up to the nearest integer
 
             echo "<h2>Recommendations</h2>";
-            echo "<p>Based on your input, here are our recommendations:</p>";
+            echo "<p>Based on your input, here are our recommendations - this is a very general recommendation based on last 24hrs of metrics:</p>";
             echo "<ul>";
             echo "<li>Recommended CPU: $recommended_cpus Threads</li>";
             echo "<li>Recommended Memory: $recommended_memory_low - $recommended_memory_high GB</li>";
